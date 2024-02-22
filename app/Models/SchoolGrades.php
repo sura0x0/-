@@ -32,24 +32,29 @@ class SchoolGrades extends Model
     }
 
     //検索メソッド
-    public static function search($keyword_grade, $keyword_term)
-    {
-        // クエリビルダーを初期化
-        $query = self::query();
+//検索メソッド
+public static function search($student_id, $keyword_grade, $keyword_term)
+{
+    // クエリビルダーを初期化
+    $query = self::query();
 
-        // 学年が指定されている場合、その学年で絞り込みます。
-        if (!empty($keyword_grade)) {
-            $query->where('grade', $keyword_grade);
-        }
+    // 学生IDで絞り込みます。
+    $query->where('student_id', $student_id);
 
-        // 学期が指定されている場合、その学期で絞り込みます。
-        if (!empty($keyword_term)) {
-            $query->where('term', $keyword_term);
-        }
-
-        // 絞り込んだ結果を取得
-        $grades = $query->get();
-
-        return $grades;
+    // 学年が指定されている場合、その学年で絞り込みます。
+    if (!empty($keyword_grade)) {
+        $query->where('grade', $keyword_grade);
     }
+
+    // 学期が指定されている場合、その学期で絞り込みます。
+    if (!empty($keyword_term)) {
+        $query->where('term', $keyword_term);
+    }
+
+    // 絞り込んだ結果を取得
+    $grades = $query->get();
+
+    return $grades;
+}
+
 }

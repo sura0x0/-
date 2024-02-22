@@ -34,21 +34,29 @@ class SchoolGradesController extends Controller
         return view('show')->with('student', $student)->with('grades', $grades);
     }  
 
-    //検索メソッド
     public function search(Request $request, $id) 
     {
         $student = Students::find($id);
         if ($student === null) {
-            return redirect()->route('students.index')->with('error', '指定された条件が見つかりませんでした。');
+            return response()->json(['error' => '指定された条件が見つかりませんでした。']);
         }
     
         $keyword_grade = $request->grade;
         $keyword_term = $request->term;
     
-        $grades = SchoolGrades::search($keyword_grade,$keyword_term);
-      
-        return view('show', ['student' => $student, 'grades' => $grades]);
+        $grades = SchoolGrades::search($student->id, $keyword_grade, $keyword_term);
+    
+        // リクエストがAjaxか判断
+        if ($request->ajax()) {
+            // Ajaxリクエストの場合は、JSON形式でデータを返します。
+            return response()->json($grades);
+        } else {
+            // Ajaxリクエストでない場合は、ビューを返します。
+            return view('show')->with('student', $student)->with('grades', $grades);
+        }
     }
+        
+    
     
     
     

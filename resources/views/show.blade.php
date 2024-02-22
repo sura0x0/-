@@ -154,6 +154,99 @@
     <a href="{{ route('grade.store', ['id' => $student->id]) }}" class="btn btn-primary mt-3">成績追加</a>
 </div>
 
+<!-- 非同期処理 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    $('#search-form').on('submit', function(e) {
+        e.preventDefault();
+
+        var grade = $('#grade').val();
+        var term = $('#term').val();
+
+        $.ajax({
+            url: '{{ route('grade.search', ['id' => $student->id]) }}',
+            data: {
+                '_token': '{{ csrf_token() }}',
+                'grade': grade,
+                'term': term
+            },
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                var rows = '';
+                $.each(response, function(key, value) {
+                    rows = rows + '<tr>';
+                    rows = rows + '<td>' + value.grade + '</td>';
+                    rows = rows + '<td>' + value.term + '</td>';
+                    rows = rows + '<td>国語</td>';
+                    rows = rows + '<td>' + value.japanese + '</td>';
+                    rows = rows + '<td><a href="{{ url('/index') }}/' + value.id + '/edit" class="btn btn-primary btn-sm">編集</a></td>';
+                    rows = rows + '</tr>';
+                    rows = rows + '<tr>';
+                    rows = rows + '<td>' + value.grade + '</td>';
+                    rows = rows + '<td>' + value.term + '</td>';
+                    rows = rows + '<td>数学</td>';
+                    rows = rows + '<td>' + value.math + '</td>';
+                    rows = rows + '<td><a href="{{ url('/index') }}/' + value.id + '/edit" class="btn btn-primary btn-sm">編集</a></td>';
+                    rows = rows + '</tr>';
+                    rows = rows + '<tr>';
+                    rows = rows + '<td>' + value.grade + '</td>';
+                    rows = rows + '<td>' + value.term + '</td>';
+                    rows = rows + '<td>科学</td>';
+                    rows = rows + '<td>' + value.science + '</td>';
+                    rows = rows + '<td><a href="{{ url('/index') }}/' + value.id + '/edit" class="btn btn-primary btn-sm">編集</a></td>';
+                    rows = rows + '</tr>';
+                    rows = rows + '<tr>';
+                    rows = rows + '<td>' + value.grade + '</td>';
+                    rows = rows + '<td>' + value.term + '</td>';
+                    rows = rows + '<td>社会</td>';
+                    rows = rows + '<td>' + value.social_studies + '</td>';
+                    rows = rows + '<td><a href="{{ url('/index') }}/' + value.id + '/edit" class="btn btn-primary btn-sm">編集</a></td>';
+                    rows = rows + '</tr>';
+                    rows = rows + '<tr>';
+                    rows = rows + '<td>' + value.grade + '</td>';
+                    rows = rows + '<td>' + value.term + '</td>';
+                    rows = rows + '<td>音楽</td>';
+                    rows = rows + '<td>' + value.music + '</td>';
+                    rows = rows + '<td><a href="{{ url('/index') }}/' + value.id + '/edit" class="btn btn-primary btn-sm">編集</a></td>';
+                    rows = rows + '</tr>';
+                    rows = rows + '<tr>';
+                    rows = rows + '<td>' + value.grade + '</td>';
+                    rows = rows + '<td>' + value.term + '</td>';
+                    rows = rows + '<td>家庭科</td>';
+                    rows = rows + '<td>' + value.home_economics + '</td>';
+                    rows = rows + '<td><a href="{{ url('/index') }}/' + value.id + '/edit" class="btn btn-primary btn-sm">編集</a></td>';
+                    rows = rows + '</tr>';
+                    rows = rows + '<tr>';
+                    rows = rows + '<td>' + value.grade + '</td>';
+                    rows = rows + '<td>' + value.term + '</td>';
+                    rows = rows + '<td>英語</td>';
+                    rows = rows + '<td>' + value.engrish + '</td>';
+                    rows = rows + '<td><a href="{{ url('/index') }}/' + value.id + '/edit" class="btn btn-primary btn-sm">編集</a></td>';
+                    rows = rows + '</tr>';
+                    rows = rows + '<tr>';
+                    rows = rows + '<td>' + value.grade + '</td>';
+                    rows = rows + '<td>' + value.term + '</td>';
+                    rows = rows + '<td>美術</td>';
+                    rows = rows + '<td>' + value.art + '</td>';
+                    rows = rows + '<td><a href="{{ url('/index') }}/' + value.id + '/edit" class="btn btn-primary btn-sm">編集</a></td>';
+                    rows = rows + '</tr>';
+                    rows = rows + '<tr>';
+                    rows = rows + '<td>' + value.grade + '</td>';
+                    rows = rows + '<td>' + value.term + '</td>';
+                    rows = rows + '<td>保健体育</td>';
+                    rows = rows + '<td>' + value.health_and_physical_education + '</td>';
+                    rows = rows + '<td><a href="{{ url('/index') }}/' + value.id + '/edit" class="btn btn-primary btn-sm">編集</a></td>';
+                    rows = rows + '</tr>';
+                });
+
+                $('tbody').html(rows);
+            }
+        });
+    });
+});
 
 
 @endsection

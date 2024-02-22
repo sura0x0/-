@@ -194,7 +194,46 @@ class StudentsController extends Controller //コントローラーclass継承�
         // 更新が完了したら一覧画面にリダイレクトします。
         return redirect()->route('students.index');
     }
+
+    //以下、非同期処理追加
     
-    
+    //学生一覧検索機能
+    public function search(Request $request)
+{
+    $students = Students::query();
+
+    if ($request->has('name')) {
+        $students->where('name', 'like', '%' . $request->name . '%');
+    }
+
+    if ($request->has('grade')) {
+        $students->where('grade', $request->grade);
+    }
+
+    $students = $students->get();
+
+    return response()->json($students);
 }
+
+//学生一覧ソート機能
+public function sort(Request $request)
+{
+    $students = Students::query();
+
+    if ($request->has('order')) {
+        if ($request->order == 'asc') {
+            $students->orderBy('grade', 'asc');
+        } else {
+            $students->orderBy('grade', 'desc');
+        }
+    }
+
+    $students = $students->get();
+
+    return response()->json($students);
+}
+
+
+}
+
 

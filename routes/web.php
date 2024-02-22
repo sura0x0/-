@@ -33,6 +33,12 @@ Route::post('/student_register', [StudentsController::class, 'store'])->name('st
 //学生一覧画面
 Route::get('/index', [App\Http\Controllers\StudentsController::class, 'index'])->name('students.index');
 
+//学生一覧検索機能
+Route::get('/search', [App\Http\Controllers\StudentsController::class, 'search'])->name('search');
+
+//学生一覧ソート機能
+Route::get('/sort', [App\Http\Controllers\StudentsController::class, 'sort'])->name('sort');
+
 //学年更新機能
 Route::post('/home/updateAll', [App\Http\Controllers\StudentsController::class, 'updateAllGrades'])->name('student.updateAllGrades');
 
